@@ -10,10 +10,12 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody rb;
 
+    bool blue;
+
     void Start ()
     {
         rb = GetComponent<Rigidbody>();
-        osc.SetAddressHandler("/Finger_point", Jump);
+        blue = true;
     }
 
 	void FixedUpdate ()
@@ -23,14 +25,24 @@ public class PlayerController : MonoBehaviour {
 	   
 	        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 	   
-	        GetComponent<Rigidbody>().AddForce (movement * speed * Time.deltaTime);
+	        GetComponent<Rigidbody>().AddForce (movement * speed * Time.deltaTime*2);
 	 
-	    }
-   	void Jump (OscMessage message)
-   		{
-   		    Vector3 jump = new Vector3 (0.0f, 200.0f, 0.0f);
-	        GetComponent<Rigidbody>().AddForce (jump);
-   		    }
+	        if (Input.GetButton ("Jump")) 
+	        {
+          		Vector3 jump = new Vector3 (0.0f, 50.0f, 0.0f);
+          		GetComponent<Rigidbody>().AddForce (jump);
+			}
+			if (Input.GetButton("Fire2")){
+			    if (blue)
+			        {
+			            GetComponent<Renderer>().material.color = new Color(0,0,0);
+			            blue = false;
+			        }
+			    else
+			        {
+			            GetComponent<Renderer>().material.color = new Color(255,0,0);
+			            blue = true;
+			        }}
   }
-    
+  }
 
